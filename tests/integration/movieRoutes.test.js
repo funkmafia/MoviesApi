@@ -33,6 +33,16 @@ describe('Movie Routes Integration Tests', () => {
       expect(response.status).toBe(201);
       expect(response.body.data.movie.title).toBe(testMovie.title);
     });
+
+    it('should create a new movie with watched status', async () => {
+      const testMovie = { ...createTestMovie(), watched: true };
+      const response = await request(app)
+        .post('/api/movies')
+        .send(testMovie);
+      expect(response.status).toBe(201);
+      expect(response.body.data.movie.title).toBe(testMovie.title);
+      expect(response.body.data.movie.watched).toBe(true);
+    });
   });
 
   describe('GET /api/movies/:id', () => {
@@ -47,6 +57,28 @@ describe('Movie Routes Integration Tests', () => {
       
       expect(response.status).toBe(200);
       expect(response.body.data.movie.title).toBe(testMovie.title);
+    });
+  });
+
+  describe('GET /api/movies?title=Test', () => {
+    it('should find movies by title', async () => {
+      const testMovie = createTestMovie();
+      await request(app).post('/api/movies').send(testMovie);
+      const response = await request(app).get('/api/movies?title=Test');
+      expect(response.status).toBe(200);
+      expect(response.body.data.movies.length).toBeGreaterThan(0);
+      expect(response.body.data.movies[0].title).toMatch(/Test/i);
+    });
+  });
+
+  describe('GET /api/movies?director=Director', () => {
+    it('should find movies by director', async () => {
+      const testMovie = createTestMovie();
+      await request(app).post('/api/movies').send(testMovie);
+      const response = await request(app).get('/api/movies?director=Director');
+      expect(response.status).toBe(200);
+      expect(response.body.data.movies.length).toBeGreaterThan(0);
+      expect(response.body.data.movies[0].director).toMatch(/Director/i);
     });
   });
 }); 

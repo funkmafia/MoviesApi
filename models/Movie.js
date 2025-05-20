@@ -28,6 +28,10 @@ const movieSchema = new mongoose.Schema({
     min: [0, 'Rating must be between 0 and 10'],
     max: [10, 'Rating must be between 0 and 10']
   },
+  watched: {
+    type: Boolean,
+    default: false
+  },
   description: {
     type: String,
     trim: true

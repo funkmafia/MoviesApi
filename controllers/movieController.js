@@ -3,7 +3,11 @@ const Movie = require('../models/Movie');
 // Get all movies
 exports.getAllMovies = async (req, res) => {
   try {
-    const movies = await Movie.find();
+    const { title, director } = req.query;
+    const filter = {};
+    if (title) filter.title = new RegExp(title, 'i');
+    if (director) filter.director = new RegExp(director, 'i');
+    const movies = await Movie.find(filter);
     res.status(200).json({
       status: 'success',
       results: movies.length,

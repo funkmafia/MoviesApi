@@ -6,7 +6,8 @@ const createTestMovie = () => ({
   director: 'Test Director',
   year: 2024,
   genre: 'Action',
-  rating: 8.5
+  rating: 8.5,
+  watched: false
 });
 
 // Helper function to clear database
