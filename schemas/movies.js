@@ -5,6 +5,7 @@ const moviesSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+
   Genre: {
     type: String,
     required: true,
