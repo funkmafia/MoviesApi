@@ -1,15 +1,20 @@
+require('dotenv').config();
 const request = require('supertest');
 const mongoose = require('mongoose');
 const { createTestMovie, clearDatabase } = require('../utils/testUtils');
 const app = require('../../index');
+const Movie = require('../../models/Movie');
 
 describe('Movie Routes Integration Tests', () => {
   beforeAll(async () => {
-    await mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/test');
+    await mongoose.connect(process.env.MONGODB_URI, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true
+    });
   });
 
   afterEach(async () => {
-    await clearDatabase();
+    await Movie.deleteMany({});
   });
 
   afterAll(async () => {
